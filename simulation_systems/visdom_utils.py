@@ -87,8 +87,9 @@ class VisdomLinePlotter(object):
         # Обновление графиков
         # x, y, legend_name, plot_name
         while (claims_aggregator.stop_simulation == False):
+        	# time.sleep(0.5)
             # claims_plot
-            time = claims_aggregator.total_simulation_time_passed
+            t = claims_aggregator.total_simulation_time_passed
             claims_dict = Counter(x['position'] for x in claims_aggregator.claims_box)
             claims_done_dict = Counter(x['position'] for x in claims_aggregator.claims_done_box)
             claims_loss_dict = Counter(x['position'] for x in claims_aggregator.claims_loss_box)
@@ -96,23 +97,23 @@ class VisdomLinePlotter(object):
             customer_types_dict= dict([(x.position, x.cur_time_between_claims) for x in customer_list])
 
             for k, v in claims_dict.items():
-                self.update_plot([time], [v], f'Node {k}', 'claims_plot')
+                self.update_plot([t], [v], f'Node {k}', 'claims_plot')
 
             for k, v in claims_done_dict.items():
-                self.update_plot([time], [v], f'Node {k}', 'done_claims_plot')
+                self.update_plot([t], [v], f'Node {k}', 'done_claims_plot')
 
             for k, v in claims_loss_dict.items():
-                self.update_plot([time], [v], f'Node {k}', 'missed_claims_plot')
+                self.update_plot([t], [v], f'Node {k}', 'missed_claims_plot')
 
             for k, v in claims_done_dict.items():
-                self.update_plot([time], [v*price], f'Node {k}', 'revenue_plot')
+                self.update_plot([t], [v*price], f'Node {k}', 'revenue_plot')
 
             for k, v in customer_types_dict.items():
-                self.update_plot([time], [v], f'Node {k}', 'customer_models')
+                self.update_plot([t], [v], f'Node {k}', 'customer_models')
 
-            self.update_plot([time], [claims_aggregator.agent_capacity], 'Resources', 'agent_resources')
-            self.update_plot([time], [claims_aggregator.agent_cur_mean_time], 'Agent Model', 'agent_service_time')
-            self.update_plot([time], [len(claims_aggregator.claims_done_box)], 'Total revenue', 'total_revenue')
+            self.update_plot([t], [claims_aggregator.agent_capacity], 'Resources', 'agent_resources')
+            self.update_plot([t], [claims_aggregator.agent_cur_mean_time], 'Agent Model', 'agent_service_time')
+            self.update_plot([t], [len(claims_aggregator.claims_done_box)], 'Total revenue', 'total_revenue')
 
 
     def start(self, claims_aggregator, customer_list):
