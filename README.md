@@ -1,1 +1,1 @@
-Repository for university projects in python
+Repository for university projects made with python
