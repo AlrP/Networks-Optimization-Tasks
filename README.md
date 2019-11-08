@@ -1,1 +1,1 @@
-Repository for university algorithms and tasks
+Repository for university projects in python
